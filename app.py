@@ -7,7 +7,7 @@ import io
 # Initialize Flask app
 app = Flask(__name__)
 # Enable Cross-Origin Resource Sharing (CORS)
-CORS(app, resources={r"/ocr": {"origins": "https://localhost:3000"}})
+CORS(app, resources={r"/ocr": {"origins": "https://aerith13.github.io/Excel-Add-in-w-Manifest/"}})
 
 @app.route('/ocr', methods=['POST'])
 def ocr():
