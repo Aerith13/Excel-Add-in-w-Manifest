@@ -27,7 +27,7 @@ async function processImage() {
 
     try {
         // Send the image to the server for OCR processing
-        const response = await fetch('https://localhost:5000/ocr', {
+        const response = await fetch('https://aerith13.github.io/Excel-Add-in-w-Manifest/ocr', {
             method: 'POST',
             body: formData,
         });
