@@ -26,8 +26,8 @@ async function processImage() {
     formData.append('image', file); // Append the image file to the form data
 
     try {
-        // Send the image to the server for OCR processing----update the link here with the ocr.py you did 🌞
-        const response = await fetch('https://#/ocr', {
+        // Send the image to the server for OCR processing----
+        const response = await fetch('/..app.py', {
             method: 'POST',
             body: formData,
         });
