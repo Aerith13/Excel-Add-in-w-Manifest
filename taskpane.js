@@ -3,10 +3,12 @@ Office.onReady((info) => {
     if (info.host === Office.HostType.Excel) {
         // Set up the click event for the process button
         document.getElementById('processButton').onclick = processImage;
+        console.log('Excel Add-in initialized'); // Add this line
     }
 });
 
 async function processImage() {
+    console.log('Process button clicked'); // Add this line
     // Get references to the button and image input
     const processButton = document.getElementById('processButton');
     const imageInput = document.getElementById('imageInput');
@@ -22,33 +24,23 @@ async function processImage() {
     processButton.disabled = true;
     processButton.textContent = 'Processing...';
 
-    const formData = new FormData();
-    formData.append('image', file); // Append the image file to the form data
-
     try {
-        // Send the image to the server for OCR processing----
-        const response = await fetch('/..app.py', {
-            method: 'POST',
-            body: formData,
-        });
+        console.log('Starting OCR processing');
+        const result = await Tesseract.recognize(file);
+        console.log('Received result:', result);
+        const extractedText = result.data.text;
+        document.getElementById('result').textContent = extractedText;
 
-        // Check if the response is OK
-        if (!response.ok) {
-            const errorText = await response.text(); // Get the error message
-            throw new Error(`OCR processing failed: ${errorText}`);
-        }
-
-        const result = await response.json(); // Parse the JSON response
-        document.getElementById('result').textContent = result.text; // Display the result
-
-        // Insert the OCR result into the active cell in Excel
         await Excel.run(async (context) => {
             const range = context.workbook.getSelectedRange();
-            range.values = [[result.text]]; // Set the cell value to the OCR result
-            await context.sync(); // Sync the changes
+            range.values = [[extractedText]];
+            await context.sync();
         });
     } catch (error) {
         console.error('Error:', error); // Log any errors
-        alert('An error occurred while processing the image.'); // Alert the user
+        alert(`An error occurred: ${error.message}`); // Alert the user
+    } finally {
+        processButton.disabled = false;
+        processButton.textContent = 'Process Image';
     }
 }

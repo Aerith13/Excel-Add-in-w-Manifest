@@ -10,7 +10,6 @@
   <Description DefaultValue="for ARETEX" />
   <Hosts>
     <Host Name="Workbook" />
-    
   </Hosts>
   <DefaultSettings>
     <SourceLocation DefaultValue="https://aerith13.github.io/Excel-Add-in-w-Manifest/" />
